@@ -2,7 +2,7 @@
 
 <img src="./shorts.png" height=300 width=300>
 
-# BlazyShort
+# BlazyShorts
 
 Funny and experimental URL shorterner Powered by:
 1. Rust
