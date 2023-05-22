@@ -1,22 +1,34 @@
-use axum::{routing::get, Router,extract::State};
+use axum::{routing::get, routing::post, Router, extract::State};
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
+use std::collections::HashMap;
 
 #[derive(Clone)]
 struct AppState {
-    counter: Arc<Mutex<u32>>
+    database: Arc<Mutex<HashMap<String,String>>>,
+    counter: Arc<Mutex<u64>>
 }
 
 impl AppState{
 
     fn new() -> Self{
-        Self { counter: Arc::new(Mutex::new(0u32.to_owned())), }
+        let database = HashMap::new();
+        Self { 
+            database: Arc::new(Mutex::new(database.to_owned())), 
+            counter: Arc::new(Mutex::new(0u64.to_owned())), 
+        }
     }
 
-    fn get(&mut self) -> u32{
-        let mut data = self.counter.lock().expect("mutex was poisoned");
-        *data += 1;
-        *data
+    fn add_link(&mut self, link: String) -> Result<String, String>{
+        let mut database = self.database.lock().expect("mutex was poisoned");
+        let counter = self.counter.lock().expect("mutex was poisoned");
+        database.insert(counter.to_string(), link);
+        Ok(counter.to_string())
+    }
+
+    fn get_link_by_id(&mut self, id: String) -> Result<String, String>{
+        let database = self.database.lock().expect("mutex was poisoned");
+        database.get(&id).ok_or(String::from("Not Found")).cloned()
     }
 }
 
@@ -26,7 +38,8 @@ async fn main() {
 
     let state = AppState::new();
     let app = Router::new()
-        .route("/", get(handler))
+        .route("/link", get(get_link_handler))
+        .route("/link", post(add_link_handler))
         .with_state(state);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
@@ -37,10 +50,31 @@ async fn main() {
         .unwrap();
 }
 
-
-
-async fn handler(
+async fn add_link_handler(
     State(mut state): State<AppState>,
+){
+    todo!();
+}
+
+async fn get_link_handler(
+    State(state): State<AppState>,
 ) -> String {
-    format!("hello for {}th time", state.get())
+    todo!();
+}
+
+
+#[cfg(test)]
+mod tests {
+
+    use super::AppState;
+    #[test]
+    fn save_and_load() {
+        let mut state = AppState::new();
+        let test_url = String::from("google.com/something_for_test");
+        let id = state.add_link(test_url.clone()).unwrap();
+        let url = state.get_link_by_id(id).unwrap();
+        println!("{url}");
+        println!("{test_url}");
+        assert_eq!(url, test_url);
+    }
 }

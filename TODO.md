@@ -1,5 +1,5 @@
 phase 1: (backend)
-    0. save and load from RAM
+    0. save and load from RAM               done
     1. add link
     2. redirect to link
     3. 404
