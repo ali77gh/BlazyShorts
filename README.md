@@ -16,26 +16,26 @@ Funny and experimental URL shorterner Powered by:
 
 # TODOs
 ## phase 1: (backend) 
-  1. save and load from RAM :heavy_check_mark:.
-  2. add link.
-  3. redirect to link.
+  1. Save and load from RAM :heavy_check_mark:.
+  2. Add link.
+  3. Redirect to link.
   4. Not Found.
-  5. modules.
+  5. Modules :heavy_check_mark:.
 
 ## phase 2: (backend) 
-  1. add database.
-  2. rate limiter middleware.
+  1. Add database.
+  2. Rate limiter middleware.
 
 ## phase 3: (shared-lib) 
-  1. protobuf and api models.
+  1. Protobuf and api models.
 
 ## phase 4: (front-end) 
-  1. simple landing page and routing.
-  2. add link form.
+  1. Simple landing page and routing.
+  2. Add link form.
 
 ## phase 5: (backend, shared-lib) 
-  1. login.
-  2. manage links.
+  1. Login.
+  2. Manage links.
 
 ## phase 6: (forntend) 
   1. login and dashboard UI.
