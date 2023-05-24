@@ -15,11 +15,11 @@ Funny and experimental URL shorterner Powered by:
 8. PWA
 
 # TODOs
-## phase 1: (backend) 
+## phase 1: (backend) :heavy_check_mark: 
   1. Save and load from RAM :heavy_check_mark:.
   2. Add link :heavy_check_mark:.
-  3. Redirect to link.
-  4. Not Found.
+  3. Redirect to link :heavy_check_mark:.
+  4. Not Found :heavy_check_mark:.
   5. Modules :heavy_check_mark:.
 
 ## phase 2: (backend) 

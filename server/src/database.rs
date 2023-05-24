@@ -14,7 +14,7 @@ impl AppState{
     pub fn new() -> Self{
         let database = HashMap::new();
         Self { 
-            database: Arc::new(Mutex::new(database.to_owned())), 
+            database: Arc::new(Mutex::new(database)), 
             counter: Arc::new(Mutex::new(1usize.to_owned())), 
         }
     }
@@ -23,16 +23,16 @@ impl AppState{
         let mut database = self.database.lock().expect("mutex was poisoned");
         let mut counter = self.counter.lock().expect("mutex was poisoned");
 
-        let id = seed_to_id(counter.clone());
+        let id = seed_to_id(*counter);
         database.insert(id.clone(), link);
         *counter += 1;
 
         Ok(id)
     }
 
-    pub fn get_link_by_id(&mut self, id: String) -> Result<String, String>{
+    pub fn get_link_by_id(&self, id: String) -> Option<String>{
         let database = self.database.lock().expect("mutex was poisoned");
-        database.get(&id).ok_or(String::from("Not Found")).cloned()
+        database.get(&id).cloned()
     }
 }
 

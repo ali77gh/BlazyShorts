@@ -21,7 +21,7 @@ pub async fn add_link_handler(
 
     match state.add_link(payload.link) {
         Ok(id)   => { 
-            (StatusCode::CREATED, to_string(&ResponseSuccess{id:id}).unwrap_or("err".to_string()) )
+            (StatusCode::CREATED, to_string(&ResponseSuccess{id}).unwrap_or("err".to_string()) )
         }   
         Err(msg) => {
             #[cfg(debug_assertions)]
