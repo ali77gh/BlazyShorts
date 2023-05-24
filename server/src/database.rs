@@ -1,10 +1,12 @@
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
 
+use crate::core::id_generator::seed_to_id;
+
 #[derive(Clone)]
 pub struct AppState {
     database: Arc<Mutex<HashMap<String,String>>>,
-    counter: Arc<Mutex<u64>>
+    counter: Arc<Mutex<usize>>
 }
 
 impl AppState{
@@ -13,15 +15,19 @@ impl AppState{
         let database = HashMap::new();
         Self { 
             database: Arc::new(Mutex::new(database.to_owned())), 
-            counter: Arc::new(Mutex::new(0u64.to_owned())), 
+            counter: Arc::new(Mutex::new(1usize.to_owned())), 
         }
     }
 
     pub fn add_link(&mut self, link: String) -> Result<String, String>{
         let mut database = self.database.lock().expect("mutex was poisoned");
-        let counter = self.counter.lock().expect("mutex was poisoned");
-        database.insert(counter.to_string(), link);
-        Ok(counter.to_string())
+        let mut counter = self.counter.lock().expect("mutex was poisoned");
+
+        let id = seed_to_id(counter.clone());
+        database.insert(id.clone(), link);
+        *counter += 1;
+
+        Ok(id)
     }
 
     pub fn get_link_by_id(&mut self, id: String) -> Result<String, String>{

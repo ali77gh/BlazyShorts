@@ -17,7 +17,7 @@ Funny and experimental URL shorterner Powered by:
 # TODOs
 ## phase 1: (backend) 
   1. Save and load from RAM :heavy_check_mark:.
-  2. Add link.
+  2. Add link :heavy_check_mark:.
   3. Redirect to link.
   4. Not Found.
   5. Modules :heavy_check_mark:.
