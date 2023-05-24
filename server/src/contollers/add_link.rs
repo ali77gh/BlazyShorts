@@ -1,10 +1,7 @@
 use crate::database::AppState;
-use axum::extract::State;
-use axum::extract::Json;
-use axum::http::StatusCode;
+use axum::{extract::{State, Json}, http::StatusCode};
 use serde::{Deserialize, Serialize};
-use serde_json::json;
-use serde_json::to_string;
+use serde_json::{to_string,json};
 
 #[derive(Deserialize)]
 pub struct RequestBody{

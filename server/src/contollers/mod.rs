@@ -1,4 +1,4 @@
-use axum::{routing::get, routing::post, Router};
+use axum::{routing::{get,post}, Router};
 
 mod add_link;
 mod redirector;

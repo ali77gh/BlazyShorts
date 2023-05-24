@@ -25,9 +25,10 @@ Funny and experimental URL shorterner Powered by:
 ## phase 2: (backend) 
   1. Add database.
   2. Rate limiter middleware.
+  3. Input validator
 
 ## phase 3: (shared-lib) 
-  1. Protobuf and api models.
+  1. Protobuf and api modules.
 
 ## phase 4: (front-end) 
   1. Simple landing page and routing.
