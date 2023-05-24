@@ -2,6 +2,7 @@ use std::net::SocketAddr;
 
 mod database;
 mod contollers;
+mod core;
 
 use crate::database::AppState;
 use crate::contollers::get_router;
