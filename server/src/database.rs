@@ -19,15 +19,19 @@ impl AppState{
         }
     }
 
-    pub fn add_link(&mut self, link: String) -> Result<String, String>{
+    pub fn add_link(&mut self, link: String) -> String{
         let mut database = self.database.lock().expect("mutex was poisoned");
         let mut counter = self.counter.lock().expect("mutex was poisoned");
+
+        if let Some(id) = self.get_link_by_id(link.clone()) {
+            return id;
+        }
 
         let id = seed_to_id(*counter);
         database.insert(id.clone(), link);
         *counter += 1;
 
-        Ok(id)
+        id
     }
 
     pub fn get_link_by_id(&self, id: String) -> Option<String>{
