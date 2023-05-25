@@ -23,9 +23,10 @@ Funny and experimental URL shorterner Powered by:
   5. Modules :heavy_check_mark:.
 
 ## phase 2: (backend) 
-  1. Add database.
-  2. Rate limiter middleware.
-  3. Input validator
+  1. Global Error management.
+  2. Input validator.
+  3. Rate limiter middleware.
+  4. Add database.
 
 ## phase 3: (shared-lib) 
   1. Protobuf and api modules.
