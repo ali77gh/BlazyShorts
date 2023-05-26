@@ -23,7 +23,7 @@ Funny and experimental URL shorterner Powered by:
   5. Modules :heavy_check_mark:.
 
 ## phase 2: (backend) 
-  1. Input validator.
+  1. Input validator :heavy_check_mark:.
   2. Rate limiter middleware.
   3. Add database.
 

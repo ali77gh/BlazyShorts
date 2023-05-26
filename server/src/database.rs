@@ -23,7 +23,7 @@ impl AppState{
         let mut database = self.database.lock().expect("mutex was poisoned");
         let mut counter = self.counter.lock().expect("mutex was poisoned");
 
-        if let Some(id) = self.get_link_by_id(link.clone()) {
+        if let Some(id) = self.get_link_by_id(&link) {
             return id;
         }
 
@@ -34,9 +34,9 @@ impl AppState{
         id
     }
 
-    pub fn get_link_by_id(&self, id: String) -> Option<String>{
+    pub fn get_link_by_id(&self, id: &String) -> Option<String>{
         let database = self.database.lock().expect("mutex was poisoned");
-        database.get(&id).cloned()
+        database.get(id).cloned()
     }
 }
 
@@ -47,9 +47,9 @@ mod tests {
     #[test]
     fn save_and_load() {
         let mut state = AppState::new();
-        let test_url = String::from("google.com/something_for_test");
-        let id = state.add_link(test_url.clone()).unwrap();
-        let url = state.get_link_by_id(id).unwrap();
+        let test_url = String::from("https://google.com/something_for_test");
+        let id = state.add_link(test_url.clone());
+        let url = state.get_link_by_id(&id).unwrap();
         println!("{url}");
         println!("{test_url}");
         assert_eq!(url, test_url);

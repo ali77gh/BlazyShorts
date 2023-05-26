@@ -1,6 +1,5 @@
 
-
-const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+pub const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 const BASE: usize = ALPHABET.len();
 
 pub fn seed_to_id(seed: usize) -> String{
