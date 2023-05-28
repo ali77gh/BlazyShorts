@@ -24,7 +24,7 @@ Funny and experimental URL shorterner Powered by:
 
 ## phase 2: (backend) 
   1. Input validator :heavy_check_mark:.
-  2. Rate limiter middleware.
+  2. Logger middleware :heavy_check_mark:.
   3. Add database.
 
 ## phase 3: (shared-lib) 
