@@ -1,7 +1,7 @@
 use crate::database::AppState;
 use crate::core::id_generator::ALPHABET;
 use axum::{response::{Redirect, IntoResponse, Response, Html},extract::{State,Path}, http::StatusCode};
-use crate::core::error_to_response::error_to_response as e2r;
+use crate::core::error_to_response as e2r;
 
 
 pub async fn redirector(

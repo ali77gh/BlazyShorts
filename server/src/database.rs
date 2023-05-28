@@ -1,7 +1,7 @@
 use std::sync::{Arc, Mutex};
 use std::collections::HashMap;
 
-use crate::core::id_generator::seed_to_id;
+use crate::core::seed_to_id;
 
 #[derive(Clone)]
 pub struct AppState {
