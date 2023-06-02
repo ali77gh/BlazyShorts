@@ -1,11 +1,11 @@
 use std::net::SocketAddr;
 
-mod database;
+mod data;
 mod contollers;
 mod core;
 mod middleware;
 
-use crate::database::AppState;
+use crate::data::AppState;
 use crate::contollers::get_router;
 
 #[tokio::main]

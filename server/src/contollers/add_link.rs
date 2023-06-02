@@ -1,4 +1,4 @@
-use crate::database::AppState;
+use crate::data::AppState;
 use axum::{extract::{State, Json}, http::StatusCode,response::{Response, IntoResponse}};
 use serde::{Deserialize, Serialize};
 use serde_json::to_string;
