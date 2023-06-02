@@ -16,6 +16,11 @@ struct Record{
     url: String
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct Counter{
+    value: usize 
+}
+
 pub struct DB{
     connection: Surreal<Client>
 }
@@ -32,6 +37,14 @@ impl DB {
         }).await.unwrap();
 
         connection.use_ns(NAMESPACE).use_db(DATABASE).await.unwrap();
+
+        // insert id if not exist
+        let _ : Counter = connection
+            .create(("counter", "value"))
+            .content( Counter { value:1 })
+            .await
+            .unwrap_or(Counter { value: 1 });
+
         Self{ connection }
     }
 
@@ -45,7 +58,7 @@ impl DB {
         Ok(())
     }
 
-    async fn get(&self, id: String)-> Result<Option<String>, surrealdb::Error>{
+    async fn get(&self, id: String) -> Result<Option<String>, surrealdb::Error>{
 
         // type annotation needed https://github.com/surrealdb/surrealdb/issues/1626
         let record: Option<Record> = self.connection.select((TABLE_NAME, id)).await?;
@@ -56,12 +69,28 @@ impl DB {
         }
     }
 
-    async fn exist(&self, id: String) -> Result<bool, surrealdb::Error>{
-        match self.get(id).await? {
-            Some(_) => Ok(true),           
-            None => Ok(false),           
-        }
+    async fn set_counter(&self, counter: usize) {
+
+        // type annotation needed https://github.com/surrealdb/surrealdb/issues/1626
+        let _: Option<Counter> = self.connection
+            .update(("counter", "value"))
+            .content(Counter{value:counter})
+            .await
+            .unwrap();
+
     }
+
+    async fn load_counter(&self) -> Option<usize> {
+
+        // type annotation needed https://github.com/surrealdb/surrealdb/issues/1626
+        let counter: Option<Counter> = self
+            .connection
+            .select(("counter", "value"))
+            .await.unwrap();
+        Some(counter.unwrap().value)
+    }
+
+
 }
 
 
@@ -74,10 +103,15 @@ mod tests {
 
         let db = DB::new().await;
 
-        db.set("id5".to_string(), "httpsy://google.com/masalan".to_string()).await.unwrap();
+        db.set("id5".to_string(), "https://google.com/masalan".to_string()).await.unwrap();
 
         let link = db.get("id5".to_string()).await.unwrap().unwrap();
 
-        assert_eq!(link,"httpsy://google.com/masalan")
+        assert_eq!(link,"https://google.com/masalan");
+
+        db.set_counter(10).await;
+        let c= db.load_counter().await.unwrap();
+
+        assert_eq!(c,10);
     }
 }
