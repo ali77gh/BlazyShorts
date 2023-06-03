@@ -27,7 +27,7 @@ pub struct DB{
 
 impl DB {
 
-    async fn new() -> Self {
+    pub async fn new() -> Self {
 
         let connection = Surreal::new::<Ws>("127.0.0.1:8000").await.unwrap();
         
@@ -48,28 +48,33 @@ impl DB {
         Self{ connection }
     }
 
-    async fn set(&self, id: String, url: String) -> Result<(), surrealdb::Error>{
+    pub async fn set(&self, id: String, url: String) {
         
         // type annotation needed https://github.com/surrealdb/surrealdb/issues/1626
         let _ : Record = self.connection
             .create((TABLE_NAME, id))
-            .content(Record { url }).await?;
+            .content(Record { url })
+            .await
+            .unwrap();
 
-        Ok(())
     }
 
-    async fn get(&self, id: String) -> Result<Option<String>, surrealdb::Error>{
+    pub async fn get(&self, id: &String) -> Option<String>{
 
         // type annotation needed https://github.com/surrealdb/surrealdb/issues/1626
-        let record: Option<Record> = self.connection.select((TABLE_NAME, id)).await?;
-
+        let record: Option<Record> = self
+            .connection
+            .select((TABLE_NAME, id))
+            .await
+            .unwrap();
+        
         match record {
-            Some(v) => Ok(Some(v.url)),
-            None => Ok(None)
+            None => None,
+            Some(r) => Some(r.url)
         }
     }
 
-    async fn set_counter(&self, counter: usize) {
+    pub async fn set_counter(&self, counter: usize) {
 
         // type annotation needed https://github.com/surrealdb/surrealdb/issues/1626
         let _: Option<Counter> = self.connection
@@ -80,14 +85,14 @@ impl DB {
 
     }
 
-    async fn load_counter(&self) -> Option<usize> {
+    pub async fn load_counter(&self) -> usize {
 
         // type annotation needed https://github.com/surrealdb/surrealdb/issues/1626
         let counter: Option<Counter> = self
             .connection
             .select(("counter", "value"))
             .await.unwrap();
-        Some(counter.unwrap().value)
+        counter.unwrap().value
     }
 
 
@@ -103,15 +108,16 @@ mod tests {
 
         let db = DB::new().await;
 
-        db.set("id5".to_string(), "https://google.com/masalan".to_string()).await.unwrap();
+        db.set("id5".to_string(), "https://google.com/masalan".to_string()).await;
 
-        let link = db.get("id5".to_string()).await.unwrap().unwrap();
+        let link = db.get(&"id5".to_string()).await.unwrap();
 
         assert_eq!(link,"https://google.com/masalan");
 
         db.set_counter(10).await;
-        let c= db.load_counter().await.unwrap();
+        db.set_counter(11).await;
+        let c = db.load_counter().await;
 
-        assert_eq!(c,10);
+        assert_eq!(c,11);
     }
 }

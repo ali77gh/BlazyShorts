@@ -11,7 +11,7 @@ use crate::contollers::get_router;
 #[tokio::main]
 async fn main() {
 
-    let state = AppState::new();
+    let state = AppState::new().await;
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
 

@@ -11,7 +11,7 @@ pub async fn redirector(
 
     if let Err(err) = validate(&id) { return err; }
 
-    match state.get_link_by_id(&id){
+    match state.get_link_by_id(&id).await{
         Some(url) => Redirect::permanent(&url).into_response(),
         None => {
             (StatusCode::NOT_FOUND, Html("<p>Not Found</p>")).into_response()

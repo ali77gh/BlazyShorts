@@ -21,9 +21,11 @@ pub async fn add_link_handler(
     Json(payload): Json<RequestBody>
 ) -> Response {
 
+
     if let Err(err) = validate(&payload) { return err; }
 
-    let id = state.add_link(payload.link);
+    let id = state.add_link(payload.link).await;
+    
     (StatusCode::CREATED, to_string(&ResponseSuccess{id}).unwrap_or("err".to_string()).into_response() ).into_response()
 }
 

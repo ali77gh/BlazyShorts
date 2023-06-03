@@ -1518,6 +1518,7 @@ name = "server"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "futures",
  "serde",
  "serde_json",
  "surrealdb",

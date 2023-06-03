@@ -1,5 +1,4 @@
 
-
 <img src="./shorts.png" height=300 width=300>
 
 # BlazyShorts
@@ -25,7 +24,7 @@ Funny and experimental URL shorterner Powered by:
 ## phase 2: (backend) 
   1. Input validator :heavy_check_mark:.
   2. Logger middleware :heavy_check_mark:.
-  3. Add database.
+  3. Add database :heavy_check_mark:.
 
 ## phase 3: (shared-lib) 
   1. Protobuf and api modules.
