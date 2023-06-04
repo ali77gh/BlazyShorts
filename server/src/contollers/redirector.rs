@@ -9,7 +9,7 @@ pub async fn redirector(
     Path(id): Path<String>
 ) ->  Response {
 
-    if let Err(err) = validate(&id) { return err; }
+    if let Err(err) = validate(&id) { return e2r(&err); }
 
     match state.get_link_by_id(&id).await{
         Some(url) => Redirect::permanent(&url).into_response(),
@@ -20,13 +20,13 @@ pub async fn redirector(
     
 }
 
-fn validate(path: &String) -> Result<(), Response>{
+fn validate(path: &String) -> Result<(), String>{
 
-    if path.len() > 10 { return e2r("id is too long"); }
+    if path.len() > 10 { return Err("id is too long".to_string()); }
 
     for ch in path.chars(){
         if !ALPHABET.contains(ch){
-            return e2r("invalid char");
+            return Err("invalid char".to_string());
         }
     }
 
