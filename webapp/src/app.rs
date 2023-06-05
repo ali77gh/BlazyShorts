@@ -2,6 +2,11 @@ use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 
+mod components;
+
+use crate::app::components::home::HomePage;
+use crate::app::components::home::HomePageProps;
+
 #[component]
 pub fn App(cx: Scope) -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
@@ -21,26 +26,12 @@ pub fn App(cx: Scope) -> impl IntoView {
         <Router>
             <main>
                 <Routes>
-                    <Route path="" view=|cx| view! { cx, <HomePage initial_value=3/> }/>
+                    <Route path="/" view=|cx| view! { cx, <HomePage path="/links"/> }/> // default
+                    <Route path="/info" view=|cx| view! { cx, <HomePage path="/info"/> }/>
+                    <Route path="/links" view=|cx| view! { cx, <HomePage path="/links"/> }/>
                 </Routes>
             </main>
         </Router>
     }
 }
 
-/// Renders the home page of your application.
-#[component]
-fn HomePage(cx: Scope, initial_value: i64) -> impl IntoView {
-    // Creates a reactive value to update the button
-    let (count, set_count) = create_signal(cx, initial_value);
-    
-    let on_click_pos = move |_| set_count.update(|count| *count += 1);
-    let on_click_neg = move |_| set_count.update(|count| *count -= 1);
-
-    view! { cx,
-        <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click_pos>"+"</button>
-        <button on:click=on_click_neg>"-"</button>
-        <div>{count}</div>
-    }
-}
