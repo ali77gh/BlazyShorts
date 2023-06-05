@@ -30,6 +30,12 @@ impl BaseApi<'_, RequestBody, ResponseSuccess> for AddLinkApi {
                 if scheme != "http" && scheme != "https" {
                     return Err(String::from("url scheme not supported")) ;
                 }
+                if url.host().is_none(){
+                    return Err(String::from("host is empty"))
+                }
+                if !url.host().unwrap().to_string().contains("."){
+                    return Err(String::from("host is not complete"))
+                }
 
                 Ok(())
             }
