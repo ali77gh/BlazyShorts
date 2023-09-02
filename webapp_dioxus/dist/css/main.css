@@ -1,0 +1,18 @@
+body {
+    margin: 0px; /* removing 8px margin of body */
+    font: 2em "Open Sans", sans-serif;
+}
+
+
+/* theme */
+:root {
+    --primary: #284c73;
+    --primary_dark: #142639;
+    --accent: #ecba16;
+    --background: #333;
+    --text: white;
+}
+
+.card{
+    box-shadow: ;
+}
